@@ -1,0 +1,14 @@
+# Node
+node_modules/
+dist/
+
+# Env
+.env
+.env.local
+
+# IDE
+.qoder/
+.vscode/
+
+# Logs
+*.log

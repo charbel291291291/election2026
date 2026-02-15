@@ -1,0 +1,9 @@
+{
+  "name": "FieldOps Intelligence Platform",
+  "description": "A multi-tenant SaaS for field operations, analytics, and AI-driven command center intelligence.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}

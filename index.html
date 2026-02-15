@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Temporary Fallback for Sandbox Environments -->
+    <script>
+      window.VITE_SUPABASE_URL = "https://uktyeoemnppwjemrjhns.supabase.co";
+      window.VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrdHllb2VtbnBwd2plbXJqaG5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwODY1ODAsImV4cCI6MjA4NjY2MjU4MH0.aq2GuY_FH6SkvYG3iN8fJnULtgRt8GBlopbp3Ft_b7U";
+    </script>
+    
+    <title>منصة إدارة الانتخابات - لبنان ٢٠٢٦</title>
+    <!-- Tailwind via CDN for simplicity in this hybrid setup, or can be moved to package.json -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+     <style>
+       :root {
+         --glass-border: rgba(255, 255, 255, 0.08);
+         --glass-surface: rgba(15, 23, 42, 0.6);
+         --neon-accent: #3b82f6;
+       }
+       body {
+         font-family: 'Tajawal', sans-serif;
+         background-color: #020617; /* Deepest Slate */
+         color: #f8fafc;
+         overflow-x: hidden;
+         -webkit-tap-highlight-color: transparent;
+       }
+       
+       /* Premium Scrollbar */
+       ::-webkit-scrollbar {
+         width: 6px;
+         height: 6px;
+       }
+       ::-webkit-scrollbar-track {
+         background: transparent; 
+       }
+       ::-webkit-scrollbar-thumb {
+         background: rgba(255,255,255,0.1); 
+         border-radius: 10px;
+       }
+       ::-webkit-scrollbar-thumb:hover {
+         background: rgba(255,255,255,0.2); 
+       }
+
+       /* Glassmorphism Utilities */
+       .glass-panel {
+         background: var(--glass-surface);
+         backdrop-filter: blur(20px);
+         -webkit-backdrop-filter: blur(20px);
+         border: 1px solid var(--glass-border);
+         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+       }
+       
+       .glass-card-hover {
+         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+       }
+       .glass-card-hover:hover {
+         background: rgba(30, 41, 59, 0.7);
+         border-color: rgba(255, 255, 255, 0.15);
+         transform: translateY(-4px);
+         box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4);
+       }
+
+       /* Safe Area Utilities */
+       .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+       .pt-safe { padding-top: env(safe-area-inset-top); }
+     </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
+    "zustand": "https://esm.sh/zustand@^5.0.11",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
+    "framer-motion": "https://esm.sh/framer-motion@^12.34.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.564.0",
+    "leaflet": "https://esm.sh/leaflet@^1.9.4",
+    "leaflet.markercluster": "https://esm.sh/leaflet.markercluster@^1.5.3",
+    "recharts": "https://esm.sh/recharts@^3.7.0",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4",
+    "vite-plugin-pwa": "https://esm.sh/vite-plugin-pwa@^1.2.0",
+    "@react-three/fiber": "https://esm.sh/@react-three/fiber@^9.5.0",
+    "@react-three/drei": "https://esm.sh/@react-three/drei@^10.7.7",
+    "three": "https://esm.sh/three@^0.182.0",
+    "clsx": "https://esm.sh/clsx@^2.1.1",
+    "tailwind-merge": "https://esm.sh/tailwind-merge@^3.4.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.95.3"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
