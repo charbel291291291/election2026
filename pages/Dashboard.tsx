@@ -68,8 +68,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="space-y-4 md:space-y-6 w-full max-w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           <KPICard 
             title="تنبيهات نشطة" 
             value={animatedAlerts} 
@@ -108,8 +108,8 @@ const Dashboard: React.FC = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <GlassCard className="lg:col-span-2 p-0 overflow-hidden border-0" delay={0.5}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+          <GlassCard className="lg:col-span-2 p-0 overflow-hidden border-0 w-full" delay={0.5}>
              <div className="absolute top-4 right-4 z-10 bg-slate-900/80 backdrop-blur px-3 py-1 rounded-lg border border-white/10 text-xs text-white font-bold flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                 LIVE OPERATIONS MAP
@@ -117,7 +117,7 @@ const Dashboard: React.FC = () => {
              <MapWidget reports={reports} alerts={alerts} regions={MOCK_REGIONS} height="450px" />
           </GlassCard>
 
-          <GlassCard delay={0.6} className="flex flex-col h-[450px]">
+          <GlassCard delay={0.6} className="flex flex-col h-[400px] md:h-[450px]">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 <Activity size={18} className="text-red-400" /> الأخبار العاجلة
@@ -143,7 +143,7 @@ const Dashboard: React.FC = () => {
           </GlassCard>
         </div>
 
-        <GlassCard delay={0.7} className="h-80">
+        <GlassCard delay={0.7} className="h-64 md:h-80 w-full">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-bold text-white">مسار نسبة الاقتراع</h2>
             <select className="bg-black/30 border border-white/10 rounded-lg text-xs text-white px-3 py-1 outline-none">

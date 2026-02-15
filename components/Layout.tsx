@@ -25,6 +25,8 @@ import PWAInstallPrompt from "./PWAInstallPrompt";
 import WhatsAppCTA from "./WhatsAppCTA";
 import SuperAdminAuth from "./SuperAdminAuth";
 import AlAmidAgent from "./AlAmidAgent"; // Updated Import
+import CategoryExplanationModal from "./CategoryExplanationModal";
+import { useCategoryExplanation } from "../hooks/useCategoryExplanation";
 
 interface LayoutProps {
   children?: React.ReactNode;
@@ -44,6 +46,7 @@ const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [logoClicks, setLogoClicks] = useState(0);
+  const { showExplanation, currentCategory, handleClose } = useCategoryExplanation();
 
   // Hidden Trigger Logic: 5 Rapid Clicks on Logo
   const handleLogoClick = () => {
@@ -127,6 +130,8 @@ const Layout = ({ children }: LayoutProps) => {
               ? "field-input"
               : item.path === "/whatsapp"
               ? "whatsapp"
+              : item.path === "/legal"
+              ? "legal"
               : item.path === "/team"
               ? "team"
               : null;
@@ -216,11 +221,14 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div
-      className="flex h-screen bg-slate-950 text-slate-100 font-sans overflow-hidden"
+      className="flex h-screen bg-slate-950 text-slate-100 font-sans overflow-hidden overflow-x-hidden"
       dir="rtl"
     >
       <PWAInstallPrompt />
-      <WhatsAppCTA />
+      <WhatsAppCTA
+        message="Hello, I want to learn more about FieldOps Intelligence Platform."
+        label="تواصل معنا عبر واتساب"
+      />
       <SuperAdminAuth /> {/* Global Hidden Auth Trigger */}
       {!isOnline && (
         <div className="md:hidden fixed top-0 left-0 right-0 h-1 bg-red-600 z-[100]" />
@@ -253,21 +261,21 @@ const Layout = ({ children }: LayoutProps) => {
         )}
       </AnimatePresence>
       {/* Main Content Area */}
-      <main className="flex-1 relative overflow-y-auto overflow-x-hidden scroll-smooth z-10">
-        <div className="sticky top-0 z-30 px-4 md:px-8 py-4 backdrop-blur-md bg-[#020617]/50 border-b border-white/5 flex justify-between items-center">
-          <div className="flex items-center gap-3">
+      <main className="flex-1 relative overflow-y-auto overflow-x-hidden scroll-smooth z-10 min-h-screen flex flex-col">
+        <div className="sticky top-0 z-30 px-4 md:px-8 py-4 backdrop-blur-md bg-[#020617]/50 border-b border-white/5 flex justify-between items-center flex-shrink-0">
+          <div className="flex items-center gap-2 md:gap-3 flex-wrap">
             {isOnline ? (
-              <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
-                <Wifi size={14} /> <span>نظام متصل</span>
+              <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2 md:px-3 py-1.5 rounded-full border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+                <Wifi size={14} /> <span className="hidden sm:inline">نظام متصل</span>
               </div>
             ) : (
-              <div className="flex items-center gap-1.5 text-xs font-medium text-red-400 bg-red-500/10 px-3 py-1.5 rounded-full border border-red-500/20 animate-pulse">
-                <WifiOff size={14} /> <span>نظام غير متصل</span>
+              <div className="flex items-center gap-1.5 text-xs font-medium text-red-400 bg-red-500/10 px-2 md:px-3 py-1.5 rounded-full border border-red-500/20 animate-pulse">
+                <WifiOff size={14} /> <span className="hidden sm:inline">نظام غير متصل</span>
               </div>
             )}
 
             {pendingSyncCount > 0 && (
-              <div className="flex items-center gap-1.5 text-xs font-medium text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20">
+              <div className="flex items-center gap-1.5 text-xs font-medium text-amber-400 bg-amber-500/10 px-2 md:px-3 py-1.5 rounded-full border border-amber-500/20">
                 <RefreshCw
                   size={14}
                   className={isOnline ? "animate-spin" : ""}
@@ -281,13 +289,26 @@ const Layout = ({ children }: LayoutProps) => {
           </div>
         </div>
 
-        <div className="p-4 md:p-8 pb-32 md:pb-12 max-w-7xl mx-auto min-h-[calc(100vh-80px)]">
-          {children}
+        <div className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-8 pb-32 md:pb-12">
+          <div className="w-full max-w-full">
+            {children}
+          </div>
         </div>
       </main>
       <MobileNav onMenuClick={() => setIsMobileMenuOpen(true)} />
       {/* Replaced AIAssistant with AlAmidAgent */}
       <AlAmidAgent />
+      
+      {/* Category Explanation Modal */}
+      {currentCategory && (
+        <CategoryExplanationModal
+          isOpen={showExplanation}
+          onClose={handleClose}
+          categoryId={currentCategory.id}
+          categoryName={currentCategory.name}
+          explanation={currentCategory.explanation}
+        />
+      )}
     </div>
   );
 };

@@ -38,7 +38,25 @@ export default defineConfig({
         ],
       },
       workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,woff,woff2}"],
+        navigateFallback: "/index.html",
+        navigateFallbackDenylist: [/^\/_/, /\/[^/?]+\.[^/]+$/],
         runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/.*\.supabase\.co\/.*/i,
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "supabase-api-cache",
+              networkTimeoutSeconds: 10,
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24,
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
             handler: "CacheFirst",
@@ -61,21 +79,6 @@ export default defineConfig({
               expiration: {
                 maxEntries: 10,
                 maxAgeSeconds: 60 * 60 * 24 * 365,
-              },
-              cacheableResponse: {
-                statuses: [0, 200],
-              },
-            },
-          },
-          {
-            urlPattern: ({ url }) => url.href.includes("supabase.co"),
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "api-cache",
-              networkTimeoutSeconds: 10,
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24,
               },
               cacheableResponse: {
                 statuses: [0, 200],

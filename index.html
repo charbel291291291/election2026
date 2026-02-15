@@ -38,6 +38,16 @@
          color: #f8fafc;
          overflow-x: hidden;
          -webkit-tap-highlight-color: transparent;
+         scroll-behavior: smooth;
+       }
+       
+       html {
+         overflow-x: hidden;
+         scroll-behavior: smooth;
+       }
+       
+       * {
+         box-sizing: border-box;
        }
        
        /* Premium Scrollbar */
@@ -73,6 +83,55 @@
          border-color: rgba(255, 255, 255, 0.15);
          transform: translateY(-4px);
          box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4);
+       }
+       
+       /* Button hover and tap effects */
+       .btn-primary {
+         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+       }
+       .btn-primary:hover {
+         transform: translateY(-2px);
+         box-shadow: 0 10px 20px -5px rgba(220, 38, 38, 0.4);
+       }
+       .btn-primary:active {
+         transform: translateY(0);
+         box-shadow: 0 5px 10px -3px rgba(220, 38, 38, 0.3);
+       }
+       
+       /* Smooth scroll */
+       .custom-scrollbar::-webkit-scrollbar {
+         width: 6px;
+         height: 6px;
+       }
+       .custom-scrollbar::-webkit-scrollbar-track {
+         background: transparent;
+       }
+       .custom-scrollbar::-webkit-scrollbar-thumb {
+         background: rgba(255, 255, 255, 0.1);
+         border-radius: 10px;
+       }
+       .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+         background: rgba(255, 255, 255, 0.2);
+       }
+       
+       /* Loading skeleton animation */
+       @keyframes shimmer {
+         0% {
+           background-position: -1000px 0;
+         }
+         100% {
+           background-position: 1000px 0;
+         }
+       }
+       .skeleton {
+         background: linear-gradient(
+           90deg,
+           rgba(255, 255, 255, 0.05) 0%,
+           rgba(255, 255, 255, 0.1) 50%,
+           rgba(255, 255, 255, 0.05) 100%
+         );
+         background-size: 1000px 100%;
+         animation: shimmer 2s infinite;
        }
 
        /* Safe Area Utilities */

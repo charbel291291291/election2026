@@ -120,6 +120,21 @@ const SuperAdminAuth: React.FC = () => {
     setLoading(true);
     setError(false);
 
+    // Import secure PIN verification for error messages
+    const { verifySuperAdminPIN } = await import("../utils/superAdminAuth");
+    
+    // Verify PIN first to get proper error messages
+    const verification = verifySuperAdminPIN(pin);
+    if (!verification.success) {
+      playSound('error');
+      setError(true);
+      setPin('');
+      // Show error message in UI
+      setTimeout(() => setError(false), 3000);
+      setLoading(false);
+      return;
+    }
+
     // Simulate biometric scan delay
     await new Promise(resolve => setTimeout(resolve, 800));
 
@@ -134,7 +149,7 @@ const SuperAdminAuth: React.FC = () => {
       playSound('error');
       setError(true);
       setPin('');
-      setTimeout(() => setError(false), 500);
+      setTimeout(() => setError(false), 3000);
     }
     setLoading(false);
   };
@@ -258,8 +273,11 @@ const SuperAdminAuth: React.FC = () => {
 
                 {error && (
                     <div className="text-center">
-                        <p className="text-red-500 text-xs font-mono font-bold animate-pulse bg-red-950/50 inline-block px-4 py-1 rounded border border-red-900">
+                        <p className="text-red-500 text-xs font-mono font-bold animate-pulse bg-red-950/50 inline-block px-4 py-1 rounded border border-red-900 max-w-full break-words">
                             [ERROR]: HASH MISMATCH // RETRY
+                        </p>
+                        <p className="text-red-400 text-[10px] mt-2 font-mono">
+                            PIN must be exactly 4 digits
                         </p>
                     </div>
                 )}

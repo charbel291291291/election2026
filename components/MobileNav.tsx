@@ -23,7 +23,7 @@ const MobileNav: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
   return (
     <div
       data-tour="mobile-nav"
-      className="md:hidden fixed bottom-6 left-4 right-4 z-50 flex justify-center pointer-events-none"
+      className="md:hidden fixed bottom-4 left-4 right-4 z-50 flex justify-center pointer-events-none pb-safe"
     >
       <div className="glass-panel rounded-2xl px-2 py-2 flex items-center justify-between shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-white/10 pointer-events-auto w-full max-w-xs">
         {items.map((item, idx) => {
