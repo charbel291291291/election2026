@@ -32,6 +32,11 @@
          --glass-surface: rgba(15, 23, 42, 0.6);
          --neon-accent: #3b82f6;
        }
+       html {
+         overflow-x: hidden;
+         scroll-behavior: smooth;
+       }
+       
        body {
          font-family: 'Tajawal', sans-serif;
          background-color: #020617; /* Deepest Slate */
@@ -39,11 +44,7 @@
          overflow-x: hidden;
          -webkit-tap-highlight-color: transparent;
          scroll-behavior: smooth;
-       }
-       
-       html {
-         overflow-x: hidden;
-         scroll-behavior: smooth;
+         min-height: 100vh;
        }
        
        * {

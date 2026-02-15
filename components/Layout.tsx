@@ -10,6 +10,7 @@ import {
   Cpu,
   LogOut,
   X,
+  Menu,
   Vote,
   MessageCircle,
   Scale,
@@ -20,7 +21,7 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import { useStore } from "../store/useStore";
-import MobileNav from "./MobileNav";
+import MobileFooter from "./MobileFooter";
 import PWAInstallPrompt from "./PWAInstallPrompt";
 import WhatsAppCTA from "./WhatsAppCTA";
 import SuperAdminAuth from "./SuperAdminAuth";
@@ -77,6 +78,18 @@ const Layout = ({ children }: LayoutProps) => {
       window.removeEventListener("offline", handleStatusChange);
     };
   }, []);
+
+  // Prevent body scroll when mobile drawer is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
 
   const navItems = [
     { path: "/", label: "لوحة القيادة", icon: LayoutDashboard },
@@ -237,32 +250,57 @@ const Layout = ({ children }: LayoutProps) => {
       <aside className="hidden md:flex flex-col w-72 h-screen sticky top-0 border-l border-white/5 bg-[#020617]/80 backdrop-blur-2xl z-20 shadow-2xl">
         <NavContent />
       </aside>
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Drawer - Overlay + Slide from Right */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[60] bg-slate-900/95 backdrop-blur-xl flex flex-col md:hidden"
-          >
-            <div className="flex justify-between items-center p-6 border-b border-white/10 pt-safe">
-              <h2 className="text-xl font-bold text-white">القائمة الرئيسية</h2>
-              <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <NavContent />
-          </motion.div>
+          <>
+            {/* Dark overlay - close on click */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm md:hidden"
+              aria-hidden="true"
+            />
+            {/* Drawer - slides from right */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-y-0 right-0 w-[85vw] max-w-sm z-[61] bg-slate-900/98 backdrop-blur-xl flex flex-col md:hidden border-l border-white/10 shadow-2xl"
+            >
+              <div className="flex justify-between items-center p-6 border-b border-white/10 pt-safe">
+                <h2 className="text-xl font-bold text-white">القائمة الرئيسية</h2>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto">
+                <NavContent />
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
+      {/* Mobile Hamburger - Top Right */}
+      <button
+        data-tour="hamburger-menu"
+        onClick={() => setIsMobileMenuOpen(true)}
+        aria-label="Open menu"
+        className="md:hidden fixed top-4 right-4 z-[55] w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+      >
+        <Menu size={22} />
+      </button>
+
       {/* Main Content Area */}
       <main className="flex-1 relative overflow-y-auto overflow-x-hidden scroll-smooth z-10 min-h-screen flex flex-col">
-        <div className="sticky top-0 z-30 px-4 md:px-8 py-4 backdrop-blur-md bg-[#020617]/50 border-b border-white/5 flex justify-between items-center flex-shrink-0">
+        <div className="sticky top-0 z-30 px-4 md:px-8 py-4 pr-14 md:pr-8 backdrop-blur-md bg-[#020617]/50 border-b border-white/5 flex justify-between items-center flex-shrink-0">
           <div className="flex items-center gap-2 md:gap-3 flex-wrap">
             {isOnline ? (
               <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2 md:px-3 py-1.5 rounded-full border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
@@ -295,7 +333,7 @@ const Layout = ({ children }: LayoutProps) => {
           </div>
         </div>
       </main>
-      <MobileNav onMenuClick={() => setIsMobileMenuOpen(true)} />
+      <MobileFooter onMenuClick={() => setIsMobileMenuOpen(true)} />
       {/* Replaced AIAssistant with AlAmidAgent */}
       <AlAmidAgent />
       

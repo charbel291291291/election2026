@@ -3,7 +3,7 @@ import Joyride, { Step } from "react-joyride";
 import { useStore } from "../store/useStore";
 
 // Tour configuration - Lebanese Election Campaign SaaS (Arabic)
-// Covers all major UI elements in the app
+// Covers: Hamburger, Footer, CTA, Categories, Dashboard, AI Advisor, Reports, Profile
 const TOUR_STEPS: Step[] = [
   {
     target: "body",
@@ -19,6 +19,54 @@ const TOUR_STEPS: Step[] = [
     ),
     placement: "center",
     disableBeacon: true,
+  },
+  {
+    target: '[data-tour="hamburger-menu"]',
+    content: (
+      <div>
+        <h3 className="text-lg font-bold text-slate-900 mb-1">القائمة الرئيسية</h3>
+        <p className="text-slate-600 text-sm">
+          اضغط هنا لفتح القائمة الكاملة: لوحة القيادة، الفئات، الإعدادات، والملف الشخصي.
+        </p>
+      </div>
+    ),
+    placement: "bottom",
+  },
+  {
+    target: '[data-tour="cta-button"]',
+    content: (
+      <div>
+        <h3 className="text-lg font-bold text-slate-900 mb-1">المساعد الذكي (AI)</h3>
+        <p className="text-slate-600 text-sm">
+          اضغط لفتح العميد - مساعدك الذكي. اسأل عن التقارير، التنبيهات، والقانون الانتخابي.
+        </p>
+      </div>
+    ),
+    placement: "top",
+  },
+  {
+    target: '[data-tour="footer-nav"]',
+    content: (
+      <div>
+        <h3 className="text-lg font-bold text-slate-900 mb-1">إضافة تقرير</h3>
+        <p className="text-slate-600 text-sm">
+          الزر الرئيسي لإضافة تقرير ميداني جديد بسرعة.
+        </p>
+      </div>
+    ),
+    placement: "top",
+  },
+  {
+    target: '[data-tour="footer-profile"]',
+    content: (
+      <div>
+        <h3 className="text-lg font-bold text-slate-900 mb-1">الملف الشخصي والإعدادات</h3>
+        <p className="text-slate-600 text-sm">
+          الوصول للقائمة الكاملة والملف الشخصي وإعدادات الحساب.
+        </p>
+      </div>
+    ),
+    placement: "top",
   },
   {
     target: '[data-tour="dashboard"]',
@@ -94,15 +142,12 @@ const TOUR_STEPS: Step[] = [
     placement: "right",
   },
   {
-    target: '[data-tour="mobile-nav"]',
+    target: '[data-tour="cta-button"], [data-tour="ai-assistant"]',
     content: (
       <div>
-        <h3 className="text-lg font-bold text-slate-900 mb-1">
-          التنقل السريع
-        </h3>
+        <h3 className="text-lg font-bold text-slate-900 mb-1">AI Legal Advisor</h3>
         <p className="text-slate-600 text-sm">
-          استخدم شريط التنقل السفلي للوصول السريع إلى الصفحات الرئيسية. الزر الأحمر
-          الكبير لإضافة تقرير جديد.
+          اسأل أسئلة حول القانون الانتخابي اللبناني 44/2017 واحصل على إجابات مدعومة بـ Gemini AI.
         </p>
       </div>
     ),
@@ -112,9 +157,9 @@ const TOUR_STEPS: Step[] = [
     target: "body",
     content: (
       <div className="text-center px-2">
-        <h2 className="text-xl font-bold text-slate-900 mb-2">أنت جاهز!</h2>
+        <h2 className="text-xl font-bold text-slate-900 mb-2">النظام جاهز</h2>
         <p className="text-slate-600 text-sm">
-          ابدأ بإدارة حملتك الانتخابية الآن. المساعدة متاحة عبر زر الواتساب في الزاوية.
+          Your system is ready. Let&apos;s begin.
         </p>
       </div>
     ),
@@ -252,8 +297,10 @@ const OnboardingTour: React.FC<OnboardingTourProps> = ({
       continuous
       showSkipButton
       showProgress
+      scrollToFirstStep
+      disableScrolling={false}
       floaterProps={{
-        disableAnimation: true,
+        disableAnimation: false,
       }}
       beaconComponent={CustomBeacon}
       tooltipComponent={CustomTooltip}

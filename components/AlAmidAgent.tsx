@@ -32,6 +32,16 @@ const AlAmidAgent: React.FC = () => {
 
   const { reports, alerts, user, organization } = useStore();
 
+  // Listen for external open trigger (e.g. from MobileFooter Tech CTA)
+  useEffect(() => {
+    const handleOpen = () => {
+      setIsMinimized(false);
+      setIsOpen(true);
+    };
+    window.addEventListener("open-ai-assistant", handleOpen);
+    return () => window.removeEventListener("open-ai-assistant", handleOpen);
+  }, []);
+
   // Keyboard support - Esc to close
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -187,7 +197,7 @@ const AlAmidAgent: React.FC = () => {
             onClick={handleRestore}
             data-tour="ai-assistant"
             aria-label="Restore AI Assistant"
-            className="fixed bottom-6 left-6 z-[9998] group"
+            className="hidden md:flex fixed bottom-6 left-6 z-[9998] group"
           >
             <div className="relative flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-red-800 shadow-2xl border-2 border-red-400">
               <Bot size={24} className="text-white" />
@@ -204,7 +214,7 @@ const AlAmidAgent: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Main FAB (when closed) */}
+      {/* Main FAB (when closed) - hidden on mobile, footer has CTA instead */}
       {!isOpen && !isMinimized && (
         <motion.button
           initial={{ scale: 0 }}
@@ -213,7 +223,7 @@ const AlAmidAgent: React.FC = () => {
           onClick={() => setIsOpen(true)}
           data-tour="ai-assistant"
           aria-label="Open AI Assistant"
-          className="fixed bottom-6 left-6 w-16 h-16 bg-[#0f172a] border-2 border-red-500 rounded-full shadow-[0_0_20px_rgba(239,68,68,0.4)] z-[9997] flex items-center justify-center overflow-hidden group"
+          className="hidden md:flex fixed bottom-6 left-6 w-16 h-16 bg-[#0f172a] border-2 border-red-500 rounded-full shadow-[0_0_20px_rgba(239,68,68,0.4)] z-[9997] items-center justify-center overflow-hidden group"
         >
           <div className="absolute inset-0 bg-red-600/10 animate-pulse rounded-full"></div>
           <div className="relative z-10 w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
