@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 
 interface WhatsAppCTAProps {
   message?: string;
-  phone?: string;
+  label?: string;
 }
 
 export default function WhatsAppCTA({
-  message = "Hello, I want to upgrade my FieldOps subscription plan.",
-  phone = "96170126177",
+  message = "Hello, I want to learn more about FieldOps.",
+  label = "Chat with Support",
 }: WhatsAppCTAProps) {
   const [visible, setVisible] = useState(false);
   const [bounce, setBounce] = useState(false);
@@ -37,7 +37,7 @@ export default function WhatsAppCTA({
 
   if (!visible) return null;
 
-  const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/96170126177?text=${encodeURIComponent(
     message
   )}`;
 
@@ -84,7 +84,7 @@ export default function WhatsAppCTA({
           whitespace-nowrap
         "
       >
-        Chat with Support
+        {label}
       </span>
     </a>
   );
