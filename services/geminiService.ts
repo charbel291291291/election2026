@@ -92,7 +92,6 @@ export class GeminiLiveClient {
       },
       callbacks: {
         onopen: () => {
-          console.log("Gemini Live Connected");
           this.isConnected = true;
 
           // Setup Audio Processing Loop
@@ -173,7 +172,6 @@ export class GeminiLiveClient {
           }
         },
         onclose: () => {
-          console.log("Gemini Live Disconnected");
           this.disconnect();
         },
         onerror: (err) => {

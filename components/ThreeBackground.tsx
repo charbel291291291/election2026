@@ -4,8 +4,6 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Debug: Log Three.js Revision to ensure single instance
-console.log("Three.js Revision:", THREE.REVISION);
 
 const ParticleField = () => {
   const ref = useRef<THREE.Points>(null!);

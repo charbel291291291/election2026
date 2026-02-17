@@ -21,16 +21,6 @@ export default {
           "50%": { transform: "translateY(0)" },
           "70%": { transform: "translateY(-3px)" },
         },
-      },
-      animation: {
-        "bounce-once": "bounce-once 0.6s ease-out forwards",
-        "wa-bounce": "wa-bounce 0.8s ease-in-out",
-        "scan": "scan 2s linear infinite",
-        "spin-slow": "spin 3s linear infinite",
-        "fade-in": "fadeIn 0.5s ease-out",
-        "slide-up": "slideUp 0.4s ease-out",
-      },
-      keyframes: {
         scan: {
           "0%": { transform: "translateY(0)" },
           "100%": { transform: "translateY(100%)" },
@@ -43,6 +33,14 @@ export default {
           "0%": { transform: "translateY(20px)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
+      },
+      animation: {
+        "bounce-once": "bounce-once 0.6s ease-out forwards",
+        "wa-bounce": "wa-bounce 0.8s ease-in-out",
+        scan: "scan 2s linear infinite",
+        "spin-slow": "spin 3s linear infinite",
+        "fade-in": "fadeIn 0.5s ease-out",
+        "slide-up": "slideUp 0.4s ease-out",
       },
     },
   },

@@ -21,7 +21,6 @@ const createTestAuthUser = async () => {
   if (error) {
     console.error("Auth signup error:", error);
   } else if (data.user) {
-    console.log("Auth user created:", data.user);
 
     // Link to organization_users
     const { error: insertError } = await supabase
@@ -37,8 +36,6 @@ const createTestAuthUser = async () => {
 
     if (insertError) {
       console.error("Link to organization error:", insertError);
-    } else {
-      console.log("User linked to organization successfully");
     }
   }
 };
@@ -137,8 +134,6 @@ const Login: React.FC = () => {
       playSound("error");
       return;
     }
-
-    console.log("Logged in:", data.user);
 
     // SECURE: Do NOT auto-login. User must enter PIN manually.
     // Show success message and let user enter their PIN
